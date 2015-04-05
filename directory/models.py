@@ -1,3 +1,10 @@
 from django.db import models
 
-# Create your models here.
+class Series(models.Model):
+    pass
+
+class Volume(models.Model):
+    pass
+
+class Chapter(models.Model):
+    pass
