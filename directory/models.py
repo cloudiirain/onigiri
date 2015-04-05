@@ -9,7 +9,23 @@ class Series(models.Model):
         return self.title
 
 class Volume(models.Model):
-    pass
+    title = models.CharField(max_length=200, default="")
+    number = models.FloatField()
+    series = models.ForeignKey(Series)
+
+    def __unicode__(self):
+        return self.series + ": " + self.title
+
+    class Meta:
+        unique_together = ('series', 'title',)
 
 class Chapter(models.Model):
-    pass
+    title = models.CharField(max_length=200, default="")
+    number = models.FloatField()
+    volume = models.ForeignKey(Volume)
+
+    def __unicode__(self):
+        return self.volume + " " + self.title
+
+    class Meta:
+        unique_together = ('volume', 'title',)
