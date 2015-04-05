@@ -4,11 +4,9 @@ from directory.models import Series, Volume, Chapter
 
 class SimpleTest(TestCase):
     def test_basic_addition(self):
-        # Tests that 1 + 1 always equals 2.
         self.assertEqual(1 + 1, 2)
 
 class SeriesTest(TestCase):
-
     def test_create_series(self):
         # Create Series
         series = Series()
