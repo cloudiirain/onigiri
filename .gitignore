@@ -63,3 +63,4 @@ node_modules
 .iml
 *.db
 dev/
+onigiri/static/bower_components/

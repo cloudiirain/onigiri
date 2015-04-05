@@ -1,0 +1,21 @@
+{
+  "name": "onigiri",
+  "version": "0.0.0",
+  "homepage": "https://github.com/cloudiirain/onigiri",
+  "authors": [
+    "cloudiirain <muffinzapplepear@gmail.com>"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "onigiri/static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "html5-boilerplate": "~5.1.0"
+  }
+}
