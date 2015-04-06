@@ -1,0 +1,13 @@
+{% extends "includes/base.html" %}
+
+{% block header %}
+<div class="page-header">
+    <h1>{{ series.title }}</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+    <p><a href="{% url 'series-update' series.pk %}">Edit this Series</a></p><br>
+    <p>Author: {{ series.author }}</p>
+    <p>Artist: {{ series.artist }}</p>
+{% endblock %}

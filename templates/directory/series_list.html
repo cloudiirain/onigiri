@@ -1,0 +1,17 @@
+{% extends "includes/base.html" %}
+
+{% block header %}
+<div class="page-header">
+    <h1>Directory of Series</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+    <p><a href="{% url 'series-add' %}">Add New Series</a></p><br>
+
+    <ul>
+    {% for series in series_list %}
+        <li><a href="{% url 'series-detail' series.pk %}">{{ series }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
