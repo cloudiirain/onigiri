@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 
 class Series(models.Model):
@@ -8,6 +9,12 @@ class Series(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('series-detail', kwargs={'pk': self.pk})
+
+    class Meta:
+        ordering = ['title']
+
 class Volume(models.Model):
     title = models.CharField(max_length=200, default="")
     number = models.FloatField()
@@ -17,7 +24,8 @@ class Volume(models.Model):
         return self.series + ": " + self.title
 
     class Meta:
-        unique_together = ('series', 'title',)
+        unique_together = ('series', 'title')
+        ordering = ['series', 'number']
 
 class Chapter(models.Model):
     title = models.CharField(max_length=200, default="")
@@ -28,4 +36,5 @@ class Chapter(models.Model):
         return self.volume + " " + self.title
 
     class Meta:
-        unique_together = ('volume', 'title',)
+        unique_together = ('volume', 'title')
+        ordering = ['volume', 'number']

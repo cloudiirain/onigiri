@@ -29,3 +29,29 @@ class SeriesTest(TestCase):
         self.assertEquals(only_series.title, 'Ore no Imouto ga Konna ni Kawaii Wake ga Nai')
         self.assertEquals(only_series.author, 'Tsukasa Fushimi')
         self.assertEquals(only_series.artist, 'Hiro Kanzaki')
+
+    def test_edit_series(self):
+        pass
+
+    def test_delete_series(self):
+        pass
+
+class VolumeTest(TestCase):
+    def test_create_volume(self):
+        pass
+
+    def test_edit_volume(self):
+        pass
+
+    def test_delete_volume(self):
+        pass
+
+class ChapterTest(TestCase):
+    def test_create_chapter(self):
+        pass
+
+    def test_edit_chapter(self):
+        pass
+
+    def test_delete_chapter(self):
+        pass
