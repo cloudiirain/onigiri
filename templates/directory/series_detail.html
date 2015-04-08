@@ -12,12 +12,24 @@
     <p>Artist: {{ series.artist }}</p>
 
     <h2>Volume List</h2>
-    <p><a href="{% url 'volume-add' %}">Add New Volume</a></p>
+    <p><a href="{% url 'volume-add' %}?s={{ series.pk }}">Add New Volume</a></p>
 
     {% if series.volume_set.all %}
         {% for volume in series.volume_set.all %}
+
             <h3>{{ volume.title }} (<a href="{% url 'volume-update' volume.pk %}">Edit</a> |
-        <a href="{% url 'volume-delete' volume.pk %}">Delete</a>)</h3>
+            <a href="{% url 'volume-delete' volume.pk %}">Delete</a>)</h3>
+            <p><a href="{% url 'chapter-add' %}?v={{ volume.pk }}">Add New Chapter</a></p>
+
+            {% if volume.chapter_set.all %}
+                {% for chapter in volume.chapter_set.all %}
+                    <ul>{{ chapter.title }} (<a href="{% url 'chapter-update' chapter.pk %}">Edit</a> |
+                        <a href="{% url 'chapter-delete' chapter.pk %}">Delete</a>)</ul>
+                {% endfor %}
+            {% else %}
+                <p>Sorry, no chapters are available for this volume!</p>
+            {% endif %}
+
         {% endfor %}
     {% else %}
     <p>Sorry, no volumes are available for this series!</p>
