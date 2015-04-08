@@ -11,7 +11,7 @@
 
     <ul>
     {% for series in series_list %}
-        <li><a href="{% url 'series-detail' series.pk %}">{{ series }}</a></li>
+        <li><a href="{% url 'series-detail-slug' series.slug %}">{{ series }}</a></li>
     {% endfor %}
     </ul>
 {% endblock %}
