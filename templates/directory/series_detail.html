@@ -2,12 +2,24 @@
 
 {% block header %}
 <div class="page-header">
-    <h1>{{ series.title }}</h1>
+    <h1>{{ series.title }} (<a href="{% url 'series-update' series.pk %}">Edit</a> |
+        <a href="{% url 'series-delete' series.pk %}">Delete</a>)</h1>
 </div>
 {% endblock %}
 
 {% block content %}
-    <p><a href="{% url 'series-update' series.pk %}">Edit this Series</a></p><br>
     <p>Author: {{ series.author }}</p>
     <p>Artist: {{ series.artist }}</p>
+
+    <h2>Volume List</h2>
+    <p><a href="{% url 'volume-add' %}">Add New Volume</a></p>
+
+    {% if series.volume_set.all %}
+        {% for volume in series.volume_set.all %}
+            <h3>{{ volume.title }} (<a href="{% url 'volume-update' volume.pk %}">Edit</a> |
+        <a href="{% url 'volume-delete' volume.pk %}">Delete</a>)</h3>
+        {% endfor %}
+    {% else %}
+    <p>Sorry, no volumes are available for this series!</p>
+    {% endif %}
 {% endblock %}

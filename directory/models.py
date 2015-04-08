@@ -17,11 +17,14 @@ class Series(models.Model):
 
 class Volume(models.Model):
     title = models.CharField(max_length=200, default="")
-    number = models.FloatField()
-    series = models.ForeignKey(Series)
+    number = models.FloatField(null=True)
+    series = models.ForeignKey(Series, null=True)
 
     def __unicode__(self):
-        return self.series + ": " + self.title
+        return str(self.series) + ": " + self.title
+
+    def get_absolute_url(self):
+        return reverse('series-detail', kwargs={'pk': self.series.pk})
 
     class Meta:
         unique_together = ('series', 'title')
@@ -29,8 +32,8 @@ class Volume(models.Model):
 
 class Chapter(models.Model):
     title = models.CharField(max_length=200, default="")
-    number = models.FloatField()
-    volume = models.ForeignKey(Volume)
+    number = models.FloatField(null=True)
+    volume = models.ForeignKey(Volume, null=True)
 
     def __unicode__(self):
         return self.volume + " " + self.title

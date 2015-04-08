@@ -1,8 +1,6 @@
 *.pyc
 *~
 db.db
-manage.py
-testsite
 media
 env
 venv
