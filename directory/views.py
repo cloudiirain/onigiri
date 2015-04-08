@@ -14,21 +14,35 @@ class SeriesDetailView(DetailView):
 
 class SeriesCreate(CreateView):
     model = Series
+    template_name = "directory/form.html"
     fields = ['title', 'author', 'artist']
 
 class SeriesUpdate(UpdateView):
     model = Series
+    template_name = "directory/form.html"
     fields = ['title', 'author', 'artist']
 
 class SeriesDelete(DeleteView):
     model = Series
+    context_object_name = "object"
+    template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
 
-def editseries(request):
-    pass
+class VolumeCreate(CreateView):
+    model = Volume
+    template_name = "directory/form.html"
+    fields = ['title', 'number', 'series']
 
-def editvolume(request):
-    pass
+class VolumeUpdate(UpdateView):
+    model = Volume
+    template_name = "directory/form.html"
+    fields = ['title', 'number', 'series']
+
+class VolumeDelete(DeleteView):
+    model = Volume
+    context_object_name = "object"
+    template_name = "directory/confirm_delete.html"
+    success_url = reverse_lazy('series-list')
 
 def editchapter(request):
     pass
