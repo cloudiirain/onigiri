@@ -1,6 +1,43 @@
 {% extends "includes/base.html" %}
 
-{% block content %}
-    <div>Hello World!</div>
+{% block css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'onigiri/cover.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">onigiri-novel</h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li class="active"><a href="#">Home</a></li>
+                                <li><a class="brand" href="{% url 'series-list' %}">Novel Directory</a></li>
+                                <li><a class="brand" href="{% url 'search' %}">Search</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="inner cover">
+                    <h1 class="cover-heading">onigiri <em>(n.)</em></h1>
+                    <p class="lead">A rice ball of light novel fan translations, for human consumption.</p>
+                    <p class="lead">
+                        <a href="#" class="btn btn-lg btn-default">Currently under development</a>
+                    </p>
+                </div>
+
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
