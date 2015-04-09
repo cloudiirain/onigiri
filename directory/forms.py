@@ -8,4 +8,8 @@ SeriesVolumeFormSet = inlineformset_factory(Series, Volume, fields=('title', 'nu
 SeriesTitleFormSet = inlineformset_factory(Series, AltTitle, fields=('title',), extra=3)
 
 class SearchForm(forms.Form):
-    query = forms.CharField(label='Search', max_length=100)
+    query = forms.CharField(label='',
+                            max_length=100,
+                            widget=forms.TextInput(
+                                attrs={'class' : 'form-control', 'placeholder' : 'Search',}
+                            ))
