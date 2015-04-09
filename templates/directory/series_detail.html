@@ -11,6 +11,9 @@
     <p>Author: {{ series.author }}</p>
     <p>Artist: {{ series.artist }}</p>
 
+    <h3>Alternative Titles:</h3>
+    {{ series.alttitle_set.all }}
+
     <h2>Volume List</h2>
     <p><a href="{% url 'volume-add' %}?s={{ series.pk }}">Add New Volume</a></p>
 

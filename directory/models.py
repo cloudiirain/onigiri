@@ -35,13 +35,18 @@ class AltTitle(models.Model):
     title = models.CharField(max_length=100, default="")
     series = models.ForeignKey(Series, default="")
     slug = models.SlugField(max_length=100, default="", unique=True)
-    default = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(AltTitle, self).save(*args, **kwargs)
+
 class TitleForm(ModelForm):
-    pass
+    class Meta:
+        model = AltTitle
+        fields = ['title']
 
 class Volume(models.Model):
     title = models.CharField(max_length=100, default="")
