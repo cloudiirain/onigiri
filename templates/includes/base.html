@@ -3,9 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Onigiri{% endblock %}</title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="">
 
         <!-- Place favicon.ico in the root directory -->
 
@@ -14,7 +15,15 @@
         <link rel="stylesheet" href="{% static 'bower_components/html5-boilerplate/dist/css/main.css' %}">
         <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'onigiri/css/main.css' %}">
         <script src="{% static 'bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
         {% block css %}{% endblock %}
 
@@ -25,43 +34,56 @@
         {% block body %}
 
             {% block nav %}
-                <div class="navbar navbar-static-top navbar-inverse">
-                    <div class="navbar-inner">
-                        <div class="container">
-                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="container">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
-                            </a>
-                            <a class="brand" href="/">Onigiri</a>
-                            <a class="brand" href="{% url 'series-list' %}">Novel Directory</a>
-                            <a class="brand" href="{% url 'search' %}">Search</a>
-                            <div class="nav-collapse collapse">
-                            </div>
+                            </button>
+                            <a class="navbar-brand" href="/"><strong>onigiri-novel</strong></a>
                         </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="{% url 'series-list' %}">Novel Directory</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'search' %}">Search</a>
+                            </li>
+                        </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </div>
+                    <!-- /.container -->
+                </nav>
+
+
+
+            {% endblock %}
+
+            {% block main %}
+                <div class="container">
+                    <div class="row">
+                        {% block content %}{% endblock %}
                     </div>
                 </div>
             {% endblock %}
 
-            <div class="container">
-                {% block header %}
-                    <div class="page-header">
-                        <h1>Onigiri</h1>
-                    </div>
-                {% endblock %}
-
-                <div class="row">
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
-
-            <div class="container footer">
-                <div class="row">
-                    <div class="span12">
-                        <p>Copyright &copy; {% now "Y" %}</p>
+            {% block footer %}
+                <div class="container footer">
+                    <div class="row">
+                        <div class="span12">
+                            <p>Copyright &copy; {% now "Y" %}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endblock %}
 
         {% endblock %}
 
@@ -69,6 +91,9 @@
         <script>window.jQuery || document.write('<script src="{% static 'bower_components/html5-boilerplate/dist/js/vendor/jquery-1.11.2.min.js' %}"><\/script>')</script>
         <script src="{% static 'bower_components/html5-boilerplate/dist/js/plugins.js' %}"></script>
         <script src="{% static 'bower_components/html5-boilerplate/dist/js/main.js' %}"></script>
+
+        {% block js %}
+        {% endblock %}
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
