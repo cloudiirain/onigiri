@@ -7,13 +7,21 @@
         <div class="home-wrapper-inner">
             <div class="cover-container">
                 <div class="inner cover">
-                    <p class="lead">
-                        onigiri.
-                        <a href="{% url 'series-list' %}"><img src="{% static 'images/cat.gif' %}"></a>
-                        nomz~
-                    </p>
-                </div>
+                    <h1 class="cover-heading">おにぎり</h1>
+                        <form role="search" action="{% url 'search' %}" method="post">
+                                {% csrf_token %}
+                                <div class="input-group input-lg">
+                                    {{ searchform.query }}
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </span>
+                                </div>
+                        </form>
 
+                </div>
+                <div class="cover-container">
+                    <a href="{% url 'series-list' %}"><img src="{% static 'images/cat.gif' %}"></a>
+                </div>
             </div>
         </div>
         <div class="home-footer footer">

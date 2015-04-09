@@ -45,8 +45,12 @@ html {
 }
 
 .inner {
-    padding: 30px;
     text-align: center;
+}
+
+.cover-container img {
+    z-index: -1000;
+    margin-top: -50px;
 }
 
 .home-footer {
@@ -62,14 +66,15 @@ html {
 }
 
 @media (min-width: 768px) {
-  /* Start the vertical centering */
-  .home-wrapper-inner {
-    vertical-align: middle;
-  }
-  /* Handle the widths */
-  .cover-container {
-    width: 100%; /* Must be percentage or pixels for horizontal alignment */
-  }
+    /* Start the vertical centering */
+    .home-wrapper-inner {
+        vertical-align: middle;
+    }
+    /* Handle the widths */
+    .cover-container {
+        width: 100%; /* Must be percentage or pixels for horizontal alignment */
+        padding: 0px 100px;
+    }
 }
 
 @media (min-width: 992px) {
