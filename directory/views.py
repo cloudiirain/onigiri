@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 
-from directory.models import Series, Volume, Chapter, SeriesForm
+from directory.models import Series, Volume, Chapter, SeriesForm, Tags
 from directory.forms import SeriesVolumeFormSet, SeriesTitleFormSet, SearchForm
 
 class SeriesListView(ListView):
@@ -13,10 +13,16 @@ class SeriesListView(ListView):
 class SeriesDetailView(DetailView):
     model = Series
 
+    def get_object(self):
+        object = super(SeriesDetailView, self).get_object()
+        object.views += 1
+        object.save()
+        return object
+
 class SeriesCreate(CreateView):
     model = Series
     template_name = "directory/form.html"
-    fields = ['title', 'author', 'artist']
+    fields = ['title', 'author', 'artist', 'tags']
 
 def series_edit(request, pk=None):
     series = get_object_or_404(Series, pk=pk)
@@ -45,7 +51,7 @@ def series_edit(request, pk=None):
 class SeriesUpdate(UpdateView):
     model = Series
     template_name = "directory/form.html"
-    fields = ['title', 'author', 'artist']
+    fields = ['title', 'author', 'artist', 'tags']
 
 class SeriesDelete(DeleteView):
     model = Series
@@ -98,6 +104,21 @@ class ChapterUpdate(UpdateView):
 
 class ChapterDelete(DeleteView):
     model = Chapter
+    template_name = "directory/confirm_delete.html"
+    success_url = reverse_lazy('series-list')
+
+class TagCreate(CreateView):
+    model = Tags
+    template_name = "directory/form.html"
+    fields = ['title']
+
+class TagUpdate(UpdateView):
+    model = Tags
+    template_name = "directory/form.html"
+    fields = ['title']
+
+class TagDelete(DeleteView):
+    model = Tags
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
 

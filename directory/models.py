@@ -3,11 +3,32 @@ from django.utils.text import slugify
 from django.db import models
 from django.forms import ModelForm
 
+class Tags(models.Model):
+    title = models.CharField(max_length=50, default="")
+    slug = models.SlugField(max_length=50, default="", unique=True)
+
+    def __unicode__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('series-list')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Tags, self).save(*args, **kwargs)
+
+class TagsForm(ModelForm):
+    class Meta:
+        model = Tags
+        fields = ['title']
+
 class Series(models.Model):
     author = models.CharField(max_length=50, default="")
     artist = models.CharField(max_length=50, default="", blank=True)
     title = models.CharField(max_length=100, default="")
     slug = models.SlugField(max_length=100, default="", unique=True)
+    views = models.IntegerField(default=0)
+    tags = models.ManyToManyField(Tags)
 
     def __unicode__(self):
         return self.title
@@ -18,7 +39,6 @@ class Series(models.Model):
     def series_slug(self):
         return self.slug
 
-    # Should require the save to occur with the title
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Series, self).save(*args, **kwargs)
@@ -29,7 +49,7 @@ class Series(models.Model):
 class SeriesForm(ModelForm):
     class Meta:
         model = Series
-        fields = ['title', 'author', 'artist']
+        fields = ['title', 'author', 'artist', 'tags']
 
 class AltTitle(models.Model):
     title = models.CharField(max_length=100, default="")
