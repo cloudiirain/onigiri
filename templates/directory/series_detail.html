@@ -10,6 +10,8 @@
 {% block content %}
     <p>Author: {{ series.author }}</p>
     <p>Artist: {{ series.artist }}</p>
+    <p>Views: {{ series.views }}</p>
+    <p>Tags: {% for tag in series.tags.all %}{{ tag }}, {% endfor %}</p>
 
     <h3>Alternative Titles:</h3>
     {{ series.alttitle_set.all }}
