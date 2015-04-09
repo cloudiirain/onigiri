@@ -2,10 +2,10 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, re
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from django.forms.models import inlineformset_factory
+from django.db.models import Q
 
 from directory.models import Series, Volume, Chapter, SeriesForm
-from directory.forms import SeriesVolumeFormSet
+from directory.forms import SeriesVolumeFormSet, SeriesTitleFormSet, SearchForm
 
 class SeriesListView(ListView):
     model = Series
@@ -22,42 +22,25 @@ def series_edit(request, pk=None):
     series = get_object_or_404(Series, pk=pk)
     form = SeriesForm(instance=series, prefix="ser")
     sub_form = SeriesVolumeFormSet(instance=series, prefix="vol")
+    title_form = SeriesTitleFormSet(instance=series, prefix="tit")
 
-    # Check to see if a POST has been submitted. Using GET to submit forms?
-    # Don't do it. Use POST.
     if request.POST:
-        # Load up our two forms again using the prefix keyword argument.
 
         sub_form = SeriesVolumeFormSet(request.POST, instance=series, prefix="vol")
         form = SeriesForm(request.POST, instance=series, prefix="ser")
+        title_form = SeriesTitleFormSet(request.POST, instance=series, prefix="tit")
 
-        if form.is_valid() and sub_form.is_valid():
+        if form.is_valid() and sub_form.is_valid() and title_form.is_valid():
             form.save()
             sub_form.save()
+            title_form.save()
 
             return HttpResponseRedirect(series.get_absolute_url())
-    return render(request, "directory/series-form.html", {
+    return render(request, "directory/series_form.html", {
         "formset" : sub_form,
         "form" : form,
+        "titleform" : title_form,
     })
-    # Continue request processing and handle rendering whatever template
-
-"""
-def series_edit(request, pk=None):
-    series = get_object_or_404(Series, pk=pk)
-    SeriesInlineFormSet = inlineformset_factory(Series, Volume, fields=('title','number'))
-    if request.method == "POST":
-        formset = SeriesInlineFormSet(request.POST, instance=series)
-        if formset.is_valid():
-            formset.save()
-            # Do something. Should generally end with a redirect. For example:
-            return HttpResponseRedirect(series.get_absolute_url())
-    else:
-        formset = SeriesInlineFormSet(instance=series)
-    return render_to_response("directory/series-form.html", {
-        "formset": formset,
-    })
-"""
 
 class SeriesUpdate(UpdateView):
     model = Series
@@ -118,5 +101,18 @@ class ChapterDelete(DeleteView):
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
 
-def title(request):
-    pass
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            series_list = Series.objects.filter(Q(title__icontains=query) | Q(alttitle__title__icontains=query))
+
+            if series_list.count() == 1:
+                series = series_list[0]
+                return render(request, 'directory/series_detail.html', {'series' : series})
+            else:
+                return render(request, 'directory/search_form.html', {'series_list': series_list, 'form': form})
+    form = SearchForm()
+    return render(request, 'directory/search_form.html', {'form': form})

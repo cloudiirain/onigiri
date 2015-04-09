@@ -18,7 +18,12 @@ urlpatterns = patterns('directory',
     url(r'^chapter/new/$', ChapterCreate.as_view(), name='chapter-add'),
     url(r'^chapter/(?P<pk>\d+)/edit/$', ChapterUpdate.as_view(), name='chapter-update'),
     url(r'^chapter/(?P<pk>\d+)/delete/$', ChapterDelete.as_view(), name='chapter-delete'),
+
+    url(r'^search/$', 'views.search', name='search'),
+
     url(r'^(?P<slug>[\w\-]+)/$', SeriesDetailView.as_view(), name='series-detail-slug'),
     url(r'^(?P<slug>[\w\-]+)/edit$/', SeriesUpdate.as_view(), name='series-update-slug'),
     url(r'^(?P<slug>[\w\-]+)/delete$/', SeriesDelete.as_view(), name='series-delete-slug'),
+
+
 )
