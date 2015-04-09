@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'directory',
+    'account',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,6 +87,10 @@ DATABASES = {
     }
 }
 
+# Registration and Users
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/u/login/'
+LOGOUT_URL = '/u/logout/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

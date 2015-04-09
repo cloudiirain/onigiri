@@ -31,7 +31,4 @@ urlpatterns = patterns('directory',
 
     url(r'^search/$', 'views.search', name='search'),
 
-
-
-
 )
