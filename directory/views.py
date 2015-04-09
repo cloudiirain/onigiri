@@ -116,3 +116,5 @@ def search(request):
                 return render(request, 'directory/search_form.html', {'series_list': series_list, 'form': form})
     form = SearchForm()
     return render(request, 'directory/search_form.html', {'form': form})
+
+    # Consider adding haystack for more advanced searching (categories and tags)

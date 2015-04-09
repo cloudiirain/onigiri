@@ -13,48 +13,57 @@
         <link rel="stylesheet" href="{% static 'bower_components/html5-boilerplate/dist/css/normalize.css' %}">
         <link rel="stylesheet" href="{% static 'bower_components/html5-boilerplate/dist/css/main.css' %}">
         <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap-theme.min.css' %}">
         <script src="{% static 'bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+
+        {% block css %}{% endblock %}
+
     </head>
     <body>
         <!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
-        <div class="navbar navbar-static-top navbar-inverse">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="/">Onigiri</a>
-                    <a class="brand" href="{% url 'series-list' %}">Novel Directory</a>
-                    <a class="brand" href="{% url 'search' %}">Search</a>
-                    <div class="nav-collapse collapse">
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% block body %}
 
-        <div class="container">
-            {% block header %}
-                <div class="page-header">
-                    <h1>Onigiri</h1>
+            {% block nav %}
+                <div class="navbar navbar-static-top navbar-inverse">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <a class="brand" href="/">Onigiri</a>
+                            <a class="brand" href="{% url 'series-list' %}">Novel Directory</a>
+                            <a class="brand" href="{% url 'search' %}">Search</a>
+                            <div class="nav-collapse collapse">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             {% endblock %}
 
-            <div class="row">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
+            <div class="container">
+                {% block header %}
+                    <div class="page-header">
+                        <h1>Onigiri</h1>
+                    </div>
+                {% endblock %}
 
-        <div class="container footer">
-            <div class="row">
-                <div class="span12">
-                    <p>Copyright &copy; {% now "Y" %}</p>
+                <div class="row">
+                    {% block content %}{% endblock %}
                 </div>
             </div>
-        </div>
+
+            <div class="container footer">
+                <div class="row">
+                    <div class="span12">
+                        <p>Copyright &copy; {% now "Y" %}</p>
+                    </div>
+                </div>
+            </div>
+
+        {% endblock %}
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static 'bower_components/html5-boilerplate/dist/js/vendor/jquery-1.11.2.min.js' %}"><\/script>')</script>
