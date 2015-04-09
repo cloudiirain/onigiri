@@ -29,28 +29,13 @@ class Series(models.Model):
 class SeriesForm(ModelForm):
     class Meta:
         model = Series
-        fields = ['author', 'artist']
+        fields = ['title', 'author', 'artist']
 
-class Titles(models.Model):
+class AltTitle(models.Model):
     title = models.CharField(max_length=100, default="")
     series = models.ForeignKey(Series, default="")
     slug = models.SlugField(max_length=100, default="", unique=True)
     default = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        # For new entries only
-        if self.pk is None:
-            list = Titles.objects.filter(series=self.series)
-            if list is None:
-                self.default = True
-            if self.default:
-                for item in list:
-                    item.default = False
-                    item.save()
-                # Now update the series section
-                self.series.title = self.title
-                self.series.slug = self.slug
-        super(Titles, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title

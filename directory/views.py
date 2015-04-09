@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.forms.models import inlineformset_factory
 
-from directory.models import Series, Volume, Chapter
+from directory.models import Series, Volume, Chapter, SeriesForm
 from directory.forms import SeriesVolumeFormSet
 
 class SeriesListView(ListView):
@@ -20,6 +20,31 @@ class SeriesCreate(CreateView):
 
 def series_edit(request, pk=None):
     series = get_object_or_404(Series, pk=pk)
+    form = SeriesForm(instance=series, prefix="ser")
+    sub_form = SeriesVolumeFormSet(instance=series, prefix="vol")
+
+    # Check to see if a POST has been submitted. Using GET to submit forms?
+    # Don't do it. Use POST.
+    if request.POST:
+        # Load up our two forms again using the prefix keyword argument.
+
+        sub_form = SeriesVolumeFormSet(request.POST, instance=series, prefix="vol")
+        form = SeriesForm(request.POST, instance=series, prefix="ser")
+
+        if form.is_valid() and sub_form.is_valid():
+            form.save()
+            sub_form.save()
+
+            return HttpResponseRedirect(series.get_absolute_url())
+    return render(request, "directory/series-form.html", {
+        "formset" : sub_form,
+        "form" : form,
+    })
+    # Continue request processing and handle rendering whatever template
+
+"""
+def series_edit(request, pk=None):
+    series = get_object_or_404(Series, pk=pk)
     SeriesInlineFormSet = inlineformset_factory(Series, Volume, fields=('title','number'))
     if request.method == "POST":
         formset = SeriesInlineFormSet(request.POST, instance=series)
@@ -32,6 +57,7 @@ def series_edit(request, pk=None):
     return render_to_response("directory/series-form.html", {
         "formset": formset,
     })
+"""
 
 class SeriesUpdate(UpdateView):
     model = Series
