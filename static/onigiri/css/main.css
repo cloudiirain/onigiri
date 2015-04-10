@@ -32,68 +32,139 @@ html {
     padding: 7px;
 }
 
-/* Functional */
-.verticalalign {
-    vertical-align: middle;
-}
-
-.full-wrapper {
-    display: table;
+.footer {
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    height: 100%; /* For at least Firefox */
-    min-height: 100%;
+    height: 30px;
+    background-color: #d5d5d5;
+    font-size:small;
+    padding:5px;
 }
 
-.full-wrapper-inner {
-    display: table-cell;;
+/* Center Images */
+
+.helper {
+    padding-top: 100%; /* forces 1:1 aspect ratio */
+}
+
+.img-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    text-align:center; /* Align center inline elements */
+    font: 0/0 a;
+}
+
+.img-container:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
     height: 100%;
 }
 
+.img-container img {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Row Flex */
+.row-flex, .row-flex > div[class*='col-'] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex:1 1 auto;
+}
+
+.row-flex-wrap {
+	-webkit-flex-flow: row wrap;
+    align-content: flex-start;
+    flex:0;
+}
+
+.row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
+	 margin:-.2px; /* hack adjust for wrapping */
+}
+
+.container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
+	width:100%;
+}
+
+
+.flex-col {
+    display: flex;
+    display: -webkit-flex;
+    flex: 1 100%;
+	flex-flow: column nowrap;
+}
+
+.flex-grow {
+	display: flex;
+    -webkit-flex: 2;
+    flex: 2;
+}
+
+/* http://www.bootply.com/126437 */
+
+/* Fullscreen Table */
+.fullscreen-table {
+    min-height: 100%;
+    display: table;
+}
+.fullscreen-inner {
+    display:table-cell;
+
+}
+.fullscreen-center {
+    float:none;
+    margin:0px auto;
+}
+
+/* Series Page Styles */
+.series .well {
+    font-family: 'Goudy Old Style', 'Palatino', sans-serif;
+}
+.series h1 {
+    font-family: "Arial Black", serif;
+    font-size: 2.25em;
+    font-weight: bold;
+    border: 0px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+.series h2 {
+    color: white;
+}
+
+.series .author {
+    font-family: 'Goudy Old Style', sans-serif;
+    font-size: 1.5em;
+    font-style: normal;
+    font-weight: lighter;
+}
+
+.series .row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
+    min-width: 400px;
+    min-height: 550px;
+}
+
 /* Landing Page Styles */
-.cover-container {
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.inner {
-    text-align: center;
-}
-
-.cover-container img {
-    z-index: -1000;
-    margin-top: -50px;
-}
-
-.home-footer {
-    display: table-row;
-    vertical-align: bottom;
-    background-color: lightgray;
-
-}
-
-.home-footer .container {
-    padding-top: 5px;
-    font-size: x-small;
-}
 
 @media (min-width: 768px) {
     /* Start the vertical centering */
-    .full-wrapper-inner {
+    .fullscreen-inner {
         vertical-align: middle;
     }
-    /* Handle the widths */
-    .cover-container {
-        width: 100%; /* Must be percentage or pixels for horizontal alignment */
-        padding: 0px 100px;
-    }
-
-    .login-panel {
-        margin-top: 50px;
+    .series .row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
+        min-height: 550px;
     }
 }
 
 @media (min-width: 992px) {
-  .cover-container {
-    width: 700px;
-  }
+
 }

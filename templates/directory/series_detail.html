@@ -1,20 +1,135 @@
 {% extends "includes/base.html" %}
+{% load bootstrap3 %}
 
-{% block header %}
-<div class="page-header">
-    <h1>{{ series.title }} (<a href="{% url 'series-update' series.pk %}">Edit</a> |
-        <a href="{% url 'series-delete' series.pk %}">Delete</a>)</h1>
-</div>
-{% endblock %}
+{% block main %}
 
-{% block content %}
-    <p>Author: {{ series.author }}</p>
-    <p>Artist: {{ series.artist }}</p>
-    <p>Views: {{ series.views }}</p>
-    <p>Tags: {% for tag in series.tags.all %}{{ tag }}, {% endfor %}</p>
 
-    <h3>Alternative Titles:</h3>
-    {{ series.alttitle_set.all }}
+    <div class="container series">
+
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-lg-11 fullscreen-center">
+
+                <!-- Portfolio Item Row -->
+                <div class="row row-flex row-flex-wrap">
+
+                    <div class="col-md-7 text-center">
+                        <div class="well">
+                        <a style="z-index: 50;" href="{% url 'series-update' series.pk %}" type="button" class="btn btn-default pull-right" aria-label="Edit">
+                                {% bootstrap_icon "pencil" %}
+                            </a>
+
+                            <h1 class="page-header">{{ series.title }}</h1>
+                            <p class="lead author">
+                                by {{ series.author }}
+                            </p>
+                            <p class="lead">
+                                {% if series.synopsis%}
+                                    {{ series.synopsis }}
+                                {% else %}
+                                    Naruto Uzumaki, a hyperactive and knuckle-headed ninja, lives in Konohagakure, the Hidden Leaf village. Moments prior to his birth, a huge demon known as the Kyuubi, the Nine-tailed Fox, attacked Konohagakure and wreaked havoc. In order to put an end to the Kyuubi's rampage, the leader of the village, the 4th Hokage, sacrificed his life and sealed the monstrous beast inside the newborn Naruto.
+                                {% endif %}
+                            </p>
+                            <p>★ ★ ★</p>
+                            <div class="btn-group">
+                                {% for tag in series.tags.all %}
+                                    <button class="btn-xs btn-default">{{ tag }}</button>
+                                {% endfor %}
+                            </div>
+                            <br/><br/>
+                            <p>Views: {{ series.views }}</p>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 text-center" style="">
+                        <div class="well">
+                            <span class="helper"></span>
+                            <div class="img-container">
+                                {% if series.image %}
+                                    <img src="{{ series.image }}" class="img-responsive img-thumbnail">
+                                {% else %}
+                                    <img class="img-responsive" src="http://placehold.it/350x450" alt="">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <section class="dark" style="background-color:#646464;padding:10px 0px 30px;">
+        <div class="container series">
+            <div class="row">
+                <div class="col-lg-11 fullscreen-center">
+                    <h2>Series Details:</h2>
+                    <div class="row" style="color:lightgrey;">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Artist: {{ series.artist }}</li>
+                                <li>Publisher: n/a</li>
+                                <li>Alternative Titles: {% for title in series.alttitle_set.all %}{{ title }}, {% endfor %}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            <ul>
+                                <li>Artist: {{ series.artist }}</li>
+                                <li>Publisher: n/a</li>
+                                <li>Alternative Titles: {% for title in series.alttitle_set.all %}{{ title }}, {% endfor %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+    <div class="container">
+        <!-- Related Projects Row -->
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h2 class="page-header">Volume List:</h2>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
+                </a>
+            </div>
+
+        </div>
+        <!-- /.row -->
+    </div>
+
 
     <h2>Volume List</h2>
     <p><a href="{% url 'volume-add' %}?s={{ series.pk }}">Add New Volume</a></p>
@@ -39,4 +154,6 @@
     {% else %}
     <p>Sorry, no volumes are available for this series!</p>
     {% endif %}
+
+
 {% endblock %}

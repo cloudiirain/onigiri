@@ -12,6 +12,7 @@
         {% load static %}
         {% load bootstrap3 %}
         {% bootstrap_css %}
+        {% bootstrap_messages %}
         <link rel="stylesheet" href="{% static 'onigiri/css/main.css' %}">
 
         <!-- Place favicon.ico in the root directory -->
@@ -27,10 +28,8 @@
         {% block css %}{% endblock %}
 
     </head>
-    <body>
+    <body {% block overflow %}{% endblock %}>
         {% block body %}
-                    {% bootstrap_messages %}
-
             {% block nav %}
 
                 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -54,9 +53,6 @@
                                 </li>
                                 <li>
                                     <a href="#">Popular Novels</a>
-                                </li>
-                                <li>
-                                    <a href="#">Recent Updates</a>
                                 </li>
                                 <li>
                                     <a href="#">Community</a>
@@ -97,22 +93,22 @@
 
             {% block main %}
 
+                {% block header %}{% endblock %}
+
                 <div class="container">
                     <div class="row">
                         {% block content %}{% endblock %}
                     </div>
                 </div>
 
-                {% block footer %}
-                    <div class="container footer">
-                        <div class="row">
-                            <div class="span12">
-                                <p>Copyright &copy; {% now "Y" %}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endblock %}
+            {% endblock %}
 
+            {% block footer %}
+                <div class="footer">
+                    <div class="container text-center">
+                        <p class="text-muted">Copyright &copy; {% now "Y" %}</p>
+                    </div>
+                </div>
             {% endblock %}
 
         {% endblock %}

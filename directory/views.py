@@ -9,6 +9,7 @@ from directory.forms import SeriesVolumeFormSet, SeriesTitleFormSet, SearchForm
 
 class SeriesListView(ListView):
     model = Series
+    queryset = Series.objects.order_by('slug')
 
 class SeriesDetailView(DetailView):
     model = Series
@@ -22,7 +23,7 @@ class SeriesDetailView(DetailView):
 class SeriesCreate(CreateView):
     model = Series
     template_name = "directory/form.html"
-    fields = ['title', 'author', 'artist', 'tags']
+    fields = ['title', 'author', 'artist', 'tags', 'image', 'synopsis']
 
 def series_edit(request, pk=None):
     series = get_object_or_404(Series, pk=pk)
@@ -51,7 +52,7 @@ def series_edit(request, pk=None):
 class SeriesUpdate(UpdateView):
     model = Series
     template_name = "directory/form.html"
-    fields = ['title', 'author', 'artist', 'tags']
+    fields = ['title', 'author', 'artist', 'tags', 'image', 'synopsis']
 
 class SeriesDelete(DeleteView):
     model = Series
@@ -62,7 +63,7 @@ class SeriesDelete(DeleteView):
 class VolumeCreate(CreateView):
     model = Volume
     template_name = "directory/form.html"
-    fields = ['title', 'number', 'series']
+    fields = ['title', 'number', 'series', 'image']
 
     def get_initial(self):
         if self.request.method == 'GET' and 's' in self.request.GET:
@@ -76,7 +77,7 @@ class VolumeCreate(CreateView):
 class VolumeUpdate(UpdateView):
     model = Volume
     template_name = "directory/form.html"
-    fields = ['title', 'number', 'series']
+    fields = ['title', 'number', 'series', 'image']
 
 class VolumeDelete(DeleteView):
     model = Volume

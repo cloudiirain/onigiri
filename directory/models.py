@@ -29,6 +29,8 @@ class Series(models.Model):
     slug = models.SlugField(max_length=100, default="", unique=True)
     views = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tags)
+    image = models.URLField(blank=True, null=True)
+    synopsis = models.TextField(blank=True, default="")
 
     def __unicode__(self):
         return self.title
@@ -49,7 +51,7 @@ class Series(models.Model):
 class SeriesForm(ModelForm):
     class Meta:
         model = Series
-        fields = ['title', 'author', 'artist', 'tags']
+        fields = ['title', 'author', 'artist', 'tags', 'image', 'synopsis']
 
 class AltTitle(models.Model):
     title = models.CharField(max_length=100, default="")
@@ -72,6 +74,7 @@ class Volume(models.Model):
     title = models.CharField(max_length=100, default="")
     number = models.FloatField(null=True)
     series = models.ForeignKey(Series, null=True)
+    image = models.URLField(blank=True)
 
     def __unicode__(self):
         return str(self.series) + ": " + self.title
