@@ -4,17 +4,17 @@
 {% load bootstrap3 %}
 
 {% block main %}
-    <div class="home-wrapper">
-        <div class="home-wrapper-inner">
+    <div class="full-wrapper">
+        <div class="full-wrapper-inner">
             <div class="cover-container">
                 <div class="inner cover">
-                    <h1 class="cover-heading">eat. read. dream.</h1>
+                    <h1 class="cover-heading">eat. sleep. read.</h1>
                         <form role="search" action="{% url 'search' %}" method="post">
                                 {% csrf_token %}
                                 <div class="input-group input-lg">
                                     {% bootstrap_form searchform %}
                                     <span class="input-group-btn">
-                                        {% buttons %}<button type="submit" class="btn btn-primary">Submit</button>{% endbuttons %}
+                                        {% buttons %}<button type="submit" class="btn btn-primary">{% bootstrap_icon "search" %}</button>{% endbuttons %}
                                     </span>
                                 </div>
                         </form>
@@ -32,5 +32,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block footer %}{% endblock %}

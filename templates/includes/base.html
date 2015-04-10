@@ -9,12 +9,13 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <!-- Place favicon.ico in the root directory -->
-
         {% load static %}
         {% load bootstrap3 %}
         {% bootstrap_css %}
         <link rel="stylesheet" href="{% static 'onigiri/css/main.css' %}">
+
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,6 +29,7 @@
     </head>
     <body>
         {% block body %}
+                    {% bootstrap_messages %}
 
             {% block nav %}
 
@@ -45,6 +47,7 @@
                         </div>
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
                                     <a href="{% url 'series-list' %}">Light Novel List</a>
@@ -58,8 +61,32 @@
                                 <li>
                                     <a href="#">Community</a>
                                 </li>
+                                <li>
+                                    {% if user.is_authenticated %}
+                                        <div class="btn-group">
+                                            <a class="btn btn-primary" href="#">dashboard</a>
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">{{ user.username|capfirst }} Profile</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#">Bookmarks</a></li>
+                                                <li><a href="#">Notifications</a></li>
+                                                <li><a href="#">Settings</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    {% else %}
+                                    <div class="btn-group" role="group">
+                                        <a class="btn btn-default" href="{% url 'login' %}">Login</a>
+                                        <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+                                    </div>
+                                    {% endif %}
+                                </li>
                             </ul>
-
                         </div>
                         <!-- /.navbar-collapse -->
                     </div>
@@ -69,21 +96,23 @@
             {% endblock %}
 
             {% block main %}
+
                 <div class="container">
                     <div class="row">
                         {% block content %}{% endblock %}
                     </div>
                 </div>
-            {% endblock %}
 
-            {% block footer %}
-                <div class="container footer">
-                    <div class="row">
-                        <div class="span12">
-                            <p>Copyright &copy; {% now "Y" %}</p>
+                {% block footer %}
+                    <div class="container footer">
+                        <div class="row">
+                            <div class="span12">
+                                <p>Copyright &copy; {% now "Y" %}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endblock %}
+
             {% endblock %}
 
         {% endblock %}
