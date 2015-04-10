@@ -1,5 +1,6 @@
+
 <!doctype html>
-<html lang="">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -10,13 +11,10 @@
 
         <!-- Place favicon.ico in the root directory -->
 
-        {% load staticfiles %}
-        <link rel="stylesheet" href="{% static 'bower_components/html5-boilerplate/dist/css/normalize.css' %}">
-        <link rel="stylesheet" href="{% static 'bower_components/html5-boilerplate/dist/css/main.css' %}">
-        <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap-theme.min.css' %}">
+        {% load static %}
+        {% load bootstrap3 %}
+        {% bootstrap_css %}
         <link rel="stylesheet" href="{% static 'onigiri/css/main.css' %}">
-        <script src="{% static 'bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js' %}"></script>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,8 +27,6 @@
 
     </head>
     <body>
-        <!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
-
         {% block body %}
 
             {% block nav %}
@@ -51,13 +47,16 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
+                                    <a href="{% url 'series-list' %}">Light Novel List</a>
+                                </li>
+                                <li>
+                                    <a href="#">Popular Novels</a>
+                                </li>
+                                <li>
                                     <a href="#">Recent Updates</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'series-list' %}">Novel Directory</a>
-                                </li>
-                                <li>
-                                    <a href="#">Popular</a>
+                                    <a href="#">Community</a>
                                 </li>
                             </ul>
 
@@ -66,10 +65,6 @@
                     </div>
                     <!-- /.container -->
                 </nav>
-
-
-
-
 
             {% endblock %}
 
@@ -93,13 +88,11 @@
 
         {% endblock %}
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{% static 'bower_components/html5-boilerplate/dist/js/vendor/jquery-1.11.2.min.js' %}"><\/script>')</script>
-        <script src="{% static 'bower_components/html5-boilerplate/dist/js/plugins.js' %}"></script>
-        <script src="{% static 'bower_components/html5-boilerplate/dist/js/main.js' %}"></script>
-        <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 
+        <script src="{% bootstrap_jquery_url %}"></script>
+        {% bootstrap_javascript %}
         {% block js %}
+
         {% endblock %}
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
