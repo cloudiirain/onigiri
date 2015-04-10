@@ -15,7 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.4",
-    "html5-boilerplate": "~5.1.0"
+    "startbootstrap-sb-admin-2",
   }
 }
