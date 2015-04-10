@@ -128,6 +128,7 @@ html {
 /* Series Page Styles */
 .series .well {
     font-family: 'Goudy Old Style', 'Palatino', sans-serif;
+    background-color: #fcfcfc;
 }
 .series h1 {
     font-family: "Arial Black", serif;
@@ -148,9 +149,19 @@ html {
     font-weight: lighter;
 }
 
-.series .row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
-    min-width: 400px;
-    min-height: 550px;
+#series-img {
+    min-width: 330px;
+    min-height: 510px;
+}
+
+.volume {
+    text-align: center;
+}
+
+.volume img {
+    margin:0px auto;
+    max-height: 225px;
+    max-width: 160px;
 }
 
 /* Landing Page Styles */
@@ -160,8 +171,8 @@ html {
     .fullscreen-inner {
         vertical-align: middle;
     }
-    .series .row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
-        min-height: 550px;
+    #series-img > div[class*='col-'], .container-flex > div[class*='col-'] {
+        min-height: 510px;
     }
 }
 
