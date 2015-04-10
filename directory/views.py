@@ -1,8 +1,12 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, render_to_response
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.utils.decorators import method_decorator
+
 
 from directory.models import Series, Volume, Chapter, SeriesForm, Tags
 from directory.forms import SeriesVolumeFormSet, SeriesTitleFormSet, SearchForm
@@ -25,6 +29,11 @@ class SeriesCreate(CreateView):
     template_name = "directory/form.html"
     fields = ['title', 'author', 'artist', 'tags', 'image', 'synopsis']
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SeriesCreate, self).dispatch(*args, **kwargs)
+
+@login_required
 def series_edit(request, pk=None):
     series = get_object_or_404(Series, pk=pk)
     form = SeriesForm(instance=series, prefix="ser")
@@ -54,11 +63,19 @@ class SeriesUpdate(UpdateView):
     template_name = "directory/form.html"
     fields = ['title', 'author', 'artist', 'tags', 'image', 'synopsis']
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SeriesUpdate, self).dispatch(*args, **kwargs)
+
 class SeriesDelete(DeleteView):
     model = Series
     context_object_name = "object"
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SeriesDelete, self).dispatch(*args, **kwargs)
 
 class VolumeCreate(CreateView):
     model = Volume
@@ -74,15 +91,27 @@ class VolumeCreate(CreateView):
         else:
             return None
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(VolumeCreate, self).dispatch(*args, **kwargs)
+
 class VolumeUpdate(UpdateView):
     model = Volume
     template_name = "directory/form.html"
     fields = ['title', 'number', 'series', 'image']
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(VolumeUpdate, self).dispatch(*args, **kwargs)
+
 class VolumeDelete(DeleteView):
     model = Volume
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(VolumeDelete, self).dispatch(*args, **kwargs)
 
 class ChapterCreate(CreateView):
     model = Chapter
@@ -98,30 +127,54 @@ class ChapterCreate(CreateView):
         else:
             return None
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ChapterCreate, self).dispatch(*args, **kwargs)
+
 class ChapterUpdate(UpdateView):
     model = Chapter
     template_name = "directory/form.html"
     fields = ['title', 'number', 'volume']
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ChapterUpdate, self).dispatch(*args, **kwargs)
 
 class ChapterDelete(DeleteView):
     model = Chapter
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ChapterDelete, self).dispatch(*args, **kwargs)
+
 class TagCreate(CreateView):
     model = Tags
     template_name = "directory/form.html"
     fields = ['title']
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TagCreate, self).dispatch(*args, **kwargs)
 
 class TagUpdate(UpdateView):
     model = Tags
     template_name = "directory/form.html"
     fields = ['title']
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TagUpdate, self).dispatch(*args, **kwargs)
+
 class TagDelete(DeleteView):
     model = Tags
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TagDelete, self).dispatch(*args, **kwargs)
 
 def search(request):
     if request.method == 'POST':
@@ -130,12 +183,16 @@ def search(request):
             query = form.cleaned_data['query']
 
             series_list = Series.objects.filter(Q(title__icontains=query) | Q(alttitle__title__icontains=query))
+            refined_list = []
+            for series in series_list:
+                if not series in refined_list:
+                    refined_list.append(series)
 
-            if series_list.count() == 1:
-                series = series_list[0]
+            if len(refined_list) == 1:
+                series = refined_list[0]
                 return render(request, 'directory/series_detail.html', {'series' : series})
             else:
-                return render(request, 'directory/search_form.html', {'series_list': series_list, 'form': form})
+                return render(request, 'directory/search_form.html', {'series_list': refined_list, 'form': form})
     form = SearchForm()
     return render(request, 'directory/search_form.html', {'form': form})
 
