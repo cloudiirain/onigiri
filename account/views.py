@@ -1,22 +1,32 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+
 from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
+from django.contrib import messages, auth
+
+from account.forms import MyRegistrationForm
 
 def login(request):
     redirect_field_name = '/u/account/'
 
+def logout(request):
+    messages.success(request, "You have been successfully logged out.")
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('login'))
+
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MyRegistrationForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
-            return HttpResponseRedirect("/")
+            form.save()
+            messages.success(request, "Thanks for registering. Please log in.")
+            return HttpResponseRedirect(reverse('login'))
     else:
-        form = UserCreationForm()
+        form = MyRegistrationForm()
     return render(request, "registration/register.html", {
         'form': form,
     })
 
-def cpanel(request):
+def dashboard(request):
     pass

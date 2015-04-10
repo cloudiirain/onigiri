@@ -28,17 +28,28 @@ html {
     color: #000000;
 }
 
-/* Landing Page Styles */
-.home-wrapper {
-  display: table;
-  width: 100%;
-  height: 100%; /* For at least Firefox */
-  min-height: 100%;
+.navbar .btn-group {
+    padding: 7px;
 }
-.home-wrapper-inner {
+
+/* Functional */
+.verticalalign {
+    vertical-align: middle;
+}
+
+.full-wrapper {
+    display: table;
+    width: 100%;
+    height: 100%; /* For at least Firefox */
+    min-height: 100%;
+}
+
+.full-wrapper-inner {
     display: table-cell;;
     height: 100%;
 }
+
+/* Landing Page Styles */
 .cover-container {
   margin-right: auto;
   margin-left: auto;
@@ -67,13 +78,17 @@ html {
 
 @media (min-width: 768px) {
     /* Start the vertical centering */
-    .home-wrapper-inner {
+    .full-wrapper-inner {
         vertical-align: middle;
     }
     /* Handle the widths */
     .cover-container {
         width: 100%; /* Must be percentage or pixels for horizontal alignment */
         padding: 0px 100px;
+    }
+
+    .login-panel {
+        margin-top: 50px;
     }
 }
 
