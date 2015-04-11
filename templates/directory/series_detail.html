@@ -92,61 +92,46 @@
         <!-- Related Projects Row -->
         <div class="row">
 
-            <div class="col-lg-12 fullscreen-center">
+            <div class="col-lg-10 fullscreen-center">
                 <h2 class="page-header">Volume List:</h2>
 
                 {% for volume in series.volume_set.all %}
 
-                    <div class="col-sm-2 volume">
-                        <a style="z-index: 50; position:absolute;left:0px;top:-5px;" href="{% url 'volume-update' volume.pk %}" type="button" class="btn-sm btn-default" aria-label="Edit">
-                            {% bootstrap_icon "pencil" %}
-                        </a>
-                        <a href="#">
-                            {% if volume.image %}
-                                <img src="{{ volume.image }}" class="img-responsive img-thumbnail">
-                            {% else %}
-                                <img class="img-responsive portfolio-item" src="http://placehold.it/160x225" alt="">
-                            {% endif %}
-                        </a>
-                        <label>{{ volume.title }}</label>
+                    <div class="col-sm-3 volume">
+                        <figure>
+                            <figcaption><h4>{{ volume.title }}</h4></figcaption>
+                            <a href="{% url 'volume-detail' volume.pk %}">
+                                {% if volume.image %}
+                                    <img src="{{ volume.image }}" class="img-responsive img-thumbnail">
+                                {% else %}
+                                    <img class="img-responsive portfolio-item" src="http://placehold.it/160x225" alt="">
+                                {% endif %}
+                            </a><br>
+                            <div class="btn-group" role="group">
+                                <a type="button" href="{% url 'volume-detail' volume.pk %}" class="btn btn-success">Read Now</a>
+                                <a type="button" href="{% url 'volume-update' volume.pk %}" class="btn btn-default">
+                                    {% bootstrap_icon "pencil" %}
+                                </a>
+                            </div>
+                        </figure>
                     </div>
 
                 {% endfor %}
 
-                <div class="col-sm-2 volume">
-                    <a href="{% url 'volume-add' %}?s={{ series.pk }}">
-                        <img class="img-responsive portfolio-item" src="http://placehold.it/160x225" alt="">
-                    </a>
-                    <label>Add New</label>
+                <div class="col-sm-3 volume">
+                    <figure>
+                        <figcaption><h4>Add Volume</h4></figcaption>
+                        <a href="{% url 'volume-add' %}?s={{ series.pk }}">
+                            <img class="img-responsive portfolio-item" src="http://placehold.it/320x450" alt="">
+                        </a>
+                        <a type="button" href="{% url 'volume-add' %}?s={{ series.pk }}" class="btn btn-success">Add Volume</a>
+                    </figure>
                 </div>
 
             </div>
-
         </div>
         <!-- /.row -->
     </div>
-
-
-    {% if series.volume_set.all %}
-        {% for volume in series.volume_set.all %}
-
-            <h3>{{ volume.title }} (<a href="{% url 'volume-update' volume.pk %}">Edit</a> |
-            <a href="{% url 'volume-delete' volume.pk %}">Delete</a>)</h3>
-            <p><a href="{% url 'chapter-add' %}?v={{ volume.pk }}">Add New Chapter</a></p>
-
-            {% if volume.chapter_set.all %}
-                {% for chapter in volume.chapter_set.all %}
-                    <ul>{{ chapter.title }} (<a href="{% url 'chapter-update' chapter.pk %}">Edit</a> |
-                        <a href="{% url 'chapter-delete' chapter.pk %}">Delete</a>)</ul>
-                {% endfor %}
-            {% else %}
-                <p>Sorry, no chapters are available for this volume!</p>
-            {% endif %}
-
-        {% endfor %}
-    {% else %}
-    <p>Sorry, no volumes are available for this series!</p>
-    {% endif %}
 
 
 {% endblock %}

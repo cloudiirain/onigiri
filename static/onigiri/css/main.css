@@ -11,6 +11,10 @@ html {
     height: 100%;
 }
 
+.spacer {
+    padding-top:50px;
+}
+
 /* Navbar styles */
 .navbar {
     background-color: #fefefe;
@@ -43,7 +47,6 @@ html {
 }
 
 /* Center Images */
-
 .helper {
     padding-top: 100%; /* forces 1:1 aspect ratio */
 }
@@ -154,14 +157,13 @@ html {
     min-height: 510px;
 }
 
-.volume {
+.volume figure {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .volume img {
-    margin:0px auto;
-    max-height: 225px;
-    max-width: 160px;
+    margin: 2px auto;
 }
 
 /* Landing Page Styles */
@@ -177,5 +179,7 @@ html {
 }
 
 @media (min-width: 992px) {
-
+    .volume-detail {
+        position:fixed;
+    }
 }
