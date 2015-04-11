@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 from django.db import models
-from django.forms import ModelForm
+
 
 class Tags(models.Model):
     title = models.CharField(max_length=50, default="")
@@ -17,19 +17,15 @@ class Tags(models.Model):
         self.slug = slugify(self.title)
         super(Tags, self).save(*args, **kwargs)
 
-class TagsForm(ModelForm):
-    class Meta:
-        model = Tags
-        fields = ['title']
 
 class Series(models.Model):
-    author = models.CharField(max_length=50, default="")
-    artist = models.CharField(max_length=50, default="", blank=True)
-    title = models.CharField(max_length=100, default="")
+    author = models.CharField(max_length=50, default="", verbose_name="Series Author")
+    artist = models.CharField(max_length=50, default="", blank=True, verbose_name="Series Illustrator")
+    title = models.CharField(max_length=100, default="", verbose_name="Series Title")
     slug = models.SlugField(max_length=100, default="", unique=True)
     views = models.IntegerField(default=0)
-    tags = models.ManyToManyField(Tags)
-    image = models.URLField(blank=True, null=True)
+    tags = models.ManyToManyField(Tags, blank=True)
+    image = models.URLField(blank=True, null=True, verbose_name="Image URL")
     synopsis = models.TextField(blank=True, default="")
 
     def __unicode__(self):
@@ -38,9 +34,6 @@ class Series(models.Model):
     def get_absolute_url(self):
         return reverse('series-detail-slug', kwargs={'slug': self.slug})
 
-    def series_slug(self):
-        return self.slug
-
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Series, self).save(*args, **kwargs)
@@ -48,10 +41,6 @@ class Series(models.Model):
     class Meta:
         ordering = ['title']
 
-class SeriesForm(ModelForm):
-    class Meta:
-        model = Series
-        fields = ['title', 'author', 'artist', 'tags', 'image', 'synopsis']
 
 class AltTitle(models.Model):
     title = models.CharField(max_length=100, default="")
@@ -65,50 +54,42 @@ class AltTitle(models.Model):
         self.slug = slugify(self.title)
         super(AltTitle, self).save(*args, **kwargs)
 
-class TitleForm(ModelForm):
-    class Meta:
-        model = AltTitle
-        fields = ['title']
 
 class Volume(models.Model):
     title = models.CharField(max_length=100, default="")
     number = models.FloatField(null=True)
     series = models.ForeignKey(Series, null=True)
     image = models.URLField(blank=True)
+    slug = models.SlugField(max_length=100, default="")
 
     def __unicode__(self):
         return str(self.series) + ": " + self.title
 
     def get_absolute_url(self):
-        return reverse('series-detail-slug', kwargs={'slug': self.series.slug})
+        return reverse('volume-detail-slug', kwargs={'series': self.series.slug, 'slug': self.slug})
 
-    def series_slug(self):
-        return self.series.slug
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Volume, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = ('series', 'title')
+        unique_together = ('series', 'slug')
         ordering = ['series', 'number']
 
-class VolumeForm(ModelForm):
-    pass
 
 class Chapter(models.Model):
     title = models.CharField(max_length=200, default="")
     number = models.FloatField(null=True)
     volume = models.ForeignKey(Volume, null=True)
+    translator = models.CharField(max_length=50, default="")
+    url = models.URLField(null=True, default="#")
+
 
     def __unicode__(self):
         return str(self.volume) + " " + self.title
 
     def get_absolute_url(self):
-        return reverse('series-detail-slug', kwargs={'slug': self.volume.series.slug})
-
-    def series_slug(self):
-        return self.volume.series.slug
+        return reverse('volume-detail-slug', kwargs={'series': self.volume.series.slug, 'slug': self.volume.slug})
 
     class Meta:
-        unique_together = ('volume', 'title')
         ordering = ['volume', 'number']
-
-class ChapterForm(ModelForm):
-    pass

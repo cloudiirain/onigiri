@@ -4,12 +4,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.utils.decorators import method_decorator
 
+from directory.models import Series, Volume, Chapter, Tags
+from directory.forms import SeriesVolumeFormSet, SeriesTitleFormSet, SearchForm, SeriesForm
 
-from directory.models import Series, Volume, Chapter, SeriesForm, Tags
-from directory.forms import SeriesVolumeFormSet, SeriesTitleFormSet, SearchForm
+"""
+Series Model Views
+"""
 
 class SeriesListView(ListView):
     model = Series
@@ -32,6 +34,11 @@ class SeriesCreate(CreateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(SeriesCreate, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(SeriesCreate, self).get_context_data(**kwargs)
+        context['form_title'] = "Create Series Form"
+        return context
 
 @login_required
 def series_edit(request, pk=None):
@@ -77,6 +84,35 @@ class SeriesDelete(DeleteView):
     def dispatch(self, *args, **kwargs):
         return super(SeriesDelete, self).dispatch(*args, **kwargs)
 
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+
+            series_list = Series.objects.filter(Q(title__icontains=query) | Q(alttitle__title__icontains=query))
+            refined_list = []
+            for series in series_list:
+                if not series in refined_list:
+                    refined_list.append(series)
+
+            if len(refined_list) == 1:
+                series = refined_list[0]
+                return render(request, 'directory/series_detail.html', {'series' : series})
+            else:
+                return render(request, 'directory/search_form.html', {'series_list': refined_list, 'form': form})
+    form = SearchForm()
+    return render(request, 'directory/search_form.html', {'form': form})
+
+    # Consider adding haystack for more advanced searching (categories and tags)
+
+"""
+Volume Model Views
+"""
+
+class VolumeDetailView(DetailView):
+    model = Volume
+
 class VolumeCreate(CreateView):
     model = Volume
     template_name = "directory/form.html"
@@ -112,6 +148,10 @@ class VolumeDelete(DeleteView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(VolumeDelete, self).dispatch(*args, **kwargs)
+
+"""
+Chapter Model Views
+"""
 
 class ChapterCreate(CreateView):
     model = Chapter
@@ -149,6 +189,10 @@ class ChapterDelete(DeleteView):
     def dispatch(self, *args, **kwargs):
         return super(ChapterDelete, self).dispatch(*args, **kwargs)
 
+"""
+Tag Model Views
+"""
+
 class TagCreate(CreateView):
     model = Tags
     template_name = "directory/form.html"
@@ -176,24 +220,3 @@ class TagDelete(DeleteView):
     def dispatch(self, *args, **kwargs):
         return super(TagDelete, self).dispatch(*args, **kwargs)
 
-def search(request):
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-
-            series_list = Series.objects.filter(Q(title__icontains=query) | Q(alttitle__title__icontains=query))
-            refined_list = []
-            for series in series_list:
-                if not series in refined_list:
-                    refined_list.append(series)
-
-            if len(refined_list) == 1:
-                series = refined_list[0]
-                return render(request, 'directory/series_detail.html', {'series' : series})
-            else:
-                return render(request, 'directory/search_form.html', {'series_list': refined_list, 'form': form})
-    form = SearchForm()
-    return render(request, 'directory/search_form.html', {'form': form})
-
-    # Consider adding haystack for more advanced searching (categories and tags)

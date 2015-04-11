@@ -18,6 +18,7 @@
                                     <form method="post" action="{% url 'django.contrib.auth.views.login' %}">{% csrf_token %}
                                         <fieldset>
                                             {% bootstrap_form form %}
+                                            <p><a href="{% url 'register' %}">Register Today!</a></p>
                                             <input type="submit" value="Login" class="btn btn-lg btn-success btn-block"/>
                                             <input type="hidden" name="next" value="{{ next }}" />
                                         </fieldset>

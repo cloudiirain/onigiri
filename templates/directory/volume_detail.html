@@ -1,0 +1,99 @@
+{% extends "includes/base.html" %}
+{% load bootstrap3 %}
+
+{% block main %}
+
+    <div class="container">
+
+        <!-- Portfolio Item Heading -->
+        <div class="row">
+            <div class="col-md-12">
+                <a href="/">Home</a> /
+                <a href="{% url 'series-list' %}">Novel Directory</a> /
+                <a href="{% url 'series-detail-slug' volume.series.slug%}">{{ volume.series.title }}</a> /
+                <a href="#">{{ volume.title }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center volume-detail">
+                <figure>
+                    <figcaption><h2>{{ volume.title }}</h2></figcaption>
+                    {% if volume.image %}
+                        <img src="{{ volume.image }}" class="img-responsive img-thumbnail">
+                    {% else %}
+                        <img class="img-responsive" src="http://placehold.it/320x450" alt="">
+                    {% endif %}
+                </figure>
+            </div>
+            <div class="col-md-8 col-md-offset-4">
+
+                <h2>Volume Overview:</h2>
+                <div class="well">
+                    (work in progress)
+                </div>
+
+
+                <div>
+                    <form class="clearfix">
+                        <div class="form-group col-lg-10 col-sm-9 col-xs-8">
+                            <label class="control-label hidden" for="translator-select">Choose a filter:</label>
+                            <select class="form-control" id="translator-select">
+                                <option>(choose a filter to narrow down multiple concurrent translations)</option>
+                                <option>Cloudii [none] -- (score 4.3) (7 chapters)</option>
+                                <option>Rainii [none] -- (score 4.2) (6 chapters)</option>
+                                <option>Meepah [none] -- (score 2.2) (1 chapter)</option>
+                                <option>Show Composite</option>
+                                <option>Hide Links</option>
+                            </select>
+                        </div>
+                        <div class="btn-group col-lg-2 col-sm-3 col-xs-4 pull-right" role="group">
+                            <a href="{% url 'volume-update' volume.pk %}" type="button" class="btn btn-default">{% bootstrap_icon "pencil" %}</a>
+                            <a href="{% url 'chapter-add' %}?v={{ volume.pk }}" type="button" class="btn btn-success">{% bootstrap_icon "plus" %}</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="well">
+                <h3>Available Translations</h3>
+                {% if volume.chapter_set.all %}
+                    <div class="table-responsive"><table class="table">
+                    {% for chapter in volume.chapter_set.all %}
+                        <tr>
+                        <td><a href="#" type="button" class="btn btn-default disabled">{% bootstrap_icon "link" %}</a></td>
+                        <td><a href="{{ chapter.url }}" type="button" class="btn btn-success btn-block">{{ chapter.title }}</a></td>
+                        <td><div class="btn-group">
+                            <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                {% if chapter.translator %}{{ chapter.translator }}
+                                {% else %}No Translator
+                                {% endif %}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>Group: Baka-Tsuki</li>
+                            <li>Language: cn→us</li>
+                            </ul>
+                        </div></td>
+                        <td><div class="btn-group" role="group" style="min-width:220px;">
+                            <a href="#" type="button" class="btn btn-default disabled">{% bootstrap_icon "stats" %} 2.4 ~ 4.8</a>
+                            <a href="#" type="button" class="btn btn-default">{% bootstrap_icon "thumbs-up" %}</a>
+                            <a href="#" type="button" class="btn btn-default">{% bootstrap_icon "adjust" %}</a>
+                            <a href="#" type="button" class="btn btn-default">{% bootstrap_icon "thumbs-down" %}</a>
+                        </div></td>
+                        <td><a href="{% url 'chapter-update' chapter.pk%}" type="button" class="btn btn-primary">{% bootstrap_icon "pencil" %}</a></td>
+                        <td></td>
+                        </tr>
+                    {% endfor %}
+                    </table></div>
+                {% else %}
+                    <p>Sorry, no chapters are available for this volume!</p>
+                {% endif %}
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

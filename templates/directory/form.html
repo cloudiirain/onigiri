@@ -1,13 +1,19 @@
 {% extends "includes/base.html" %}
 
+{% load bootstrap3 %}
+
 {% block content %}
-    <form action="" method="post">{% csrf_token %}
-    {{ form.as_table }}
-    <input type="submit" value="Create" />
-        {% if object %}
-            <p><a href="{% url 'series-detail-slug' object.series_slug %}">Cancel</a></p><br>
-        {% else %}
-            <p><a href="{{ request.META.HTTP_REFERER }}">Cancel</a></p><br>
-        {% endif %}
-    </form>
+    <div class="col-md-6 col-md-offset-3">
+        <h1>{{ form_title }}</h1>
+        <form action="" method="post">
+            <fieldset>
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                <input type="submit" value="Save" class="btn btn-lg btn-success btn-block"/>
+                <a href="{{ request.META.HTTP_REFERER }}" type="button" class="btn btn-lg btn-block btn-default">Cancel</a>
+                {% endbuttons %}
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}
