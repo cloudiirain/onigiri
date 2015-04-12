@@ -16,12 +16,12 @@ urlpatterns = patterns('directory',
     url(r'^series/(?P<slug>[\w\-]+)/$', SeriesDetailView.as_view(), name='series-detail-slug'),
     url(r'^series/(?P<slug>[\w\-]+)/edit$/', SeriesUpdate.as_view(), name='series-update-slug'),
     url(r'^series/(?P<slug>[\w\-]+)/delete$/', SeriesDelete.as_view(), name='series-delete-slug'),
-    url(r'^series/(?P<series>[\w\-]+)/(?P<slug>[\w\-]+)/$', VolumeDetailView.as_view(), name='volume-detail-slug'),
 
     url(r'^volume/new/$', VolumeCreate.as_view(), name='volume-add'),
     url(r'^volume/(?P<pk>\d+)/$', VolumeDetailView.as_view(), name='volume-detail'),
     url(r'^volume/(?P<pk>\d+)/edit/$', VolumeUpdate.as_view(), name='volume-update'),
     url(r'^volume/(?P<pk>\d+)/delete/$', VolumeDelete.as_view(), name='volume-delete'),
+    url(r'^volume/(?P<slug>[\w\-]+)/$', VolumeDetailView.as_view(), name='volume-detail-slug'),
 
     url(r'^chapter/new/$', ChapterCreate.as_view(), name='chapter-add'),
     url(r'^chapter/(?P<pk>\d+)/edit/$', ChapterUpdate.as_view(), name='chapter-update'),

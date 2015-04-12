@@ -3,7 +3,6 @@
 
 {% block main %}
 
-
     <div class="container series">
 
         <!-- Portfolio Item Heading -->
@@ -89,10 +88,9 @@
 
 
     <div class="container">
-        <!-- Related Projects Row -->
         <div class="row">
 
-            <div class="col-lg-10 fullscreen-center">
+            <div class="col-lg-10 col-lg-offset-1">
                 <h2 class="page-header">Volume List:</h2>
 
                 {% for volume in series.volume_set.all %}
@@ -100,7 +98,7 @@
                     <div class="col-sm-3 volume">
                         <figure>
                             <figcaption><h4>{{ volume.title }}</h4></figcaption>
-                            <a href="{% url 'volume-detail' volume.pk %}">
+                            <a href="{% url 'volume-detail-slug' volume.slug %}">
                                 {% if volume.image %}
                                     <img src="{{ volume.image }}" class="img-responsive img-thumbnail">
                                 {% else %}
@@ -124,7 +122,9 @@
                         <a href="{% url 'volume-add' %}?s={{ series.pk }}">
                             <img class="img-responsive portfolio-item" src="http://placehold.it/320x450" alt="">
                         </a>
-                        <a type="button" href="{% url 'volume-add' %}?s={{ series.pk }}" class="btn btn-success">Add Volume</a>
+                        <div class="btn-group" role="group">
+                            <a type="button" href="{% url 'volume-add' %}?s={{ series.pk }}" class="btn btn-success">Add Volume</a>
+                        </div>
                     </figure>
                 </div>
 

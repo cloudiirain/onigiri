@@ -39,7 +39,7 @@ class Series(models.Model):
         super(Series, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['slug']
 
 
 class AltTitle(models.Model):
@@ -60,16 +60,16 @@ class Volume(models.Model):
     number = models.FloatField(null=True)
     series = models.ForeignKey(Series, null=True)
     image = models.URLField(blank=True)
-    slug = models.SlugField(max_length=100, default="")
+    slug = models.SlugField(max_length=201, default="", unique=True)
 
     def __unicode__(self):
         return str(self.series) + ": " + self.title
 
     def get_absolute_url(self):
-        return reverse('volume-detail-slug', kwargs={'series': self.series.slug, 'slug': self.slug})
+        return reverse('volume-detail-slug', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = self.series.slug + "-" + slugify(self.title)
         super(Volume, self).save(*args, **kwargs)
 
     class Meta:
