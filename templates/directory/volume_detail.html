@@ -8,14 +8,14 @@
         <!-- Portfolio Item Heading -->
         <div class="row">
             <div class="col-md-12">
-                <a href="/">Home</a> /
+                <p><a href="/">Home</a> /
                 <a href="{% url 'series-list' %}">Novel Directory</a> /
                 <a href="{% url 'series-detail-slug' volume.series.slug%}">{{ volume.series.title }}</a> /
-                <a href="#">{{ volume.title }}</a>
+                <a href="#">{{ volume.title }}</a></p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 text-center">
                 <figure style="padding-top:30px;">
                     {% if volume.image %}
                         <img src="{{ volume.image }}" class="img-responsive img-thumbnail">
@@ -25,18 +25,31 @@
                 </figure>
             </div>
             <div class="col-md-8">
-
-                <h2>Volume Overview:</h2>
                 <div class="well">
-                    (work in progress)
+                <a href="{% url 'volume-update' volume.pk %}" type="button" class="btn btn-default pull-right" aria-label="Edit">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <h3>{{ volume.title }} Overview</h3>
+                    <table class="table">
+                        <tr>
+                            <th>Date Published:</th>
+                            <th>ISBN:</th>
+                            <th>Number of Pages:</th>
+                        </tr>
+                        <tr>
+                            <td>04/04/2014</td>
+                            <td>978-4-7973-6396-8</td>
+                            <td>323</td>
+                        </tr>
+                    </table>
                 </div>
 
 
                 <div>
                     <form class="clearfix">
-                        <div class="form-group col-lg-10 col-sm-9 col-xs-8">
+                        <div class="form-group">
                             <label class="control-label hidden" for="translator-select">Choose a filter:</label>
-                            <select class="form-control" id="translator-select">
+                            <select class="form-control btn-block" id="translator-select">
                                 <option>(choose a filter to narrow down multiple concurrent translations)</option>
                                 <option>Cloudii [none] -- (score 4.3) (7 chapters)</option>
                                 <option>Rainii [none] -- (score 4.2) (6 chapters)</option>
@@ -45,17 +58,21 @@
                                 <option>Hide Links</option>
                             </select>
                         </div>
-                        <div class="btn-group col-lg-2 col-sm-3 col-xs-4 pull-right" role="group">
-                            <a href="{% url 'volume-update' volume.pk %}" type="button" class="btn btn-default">{% bootstrap_icon "pencil" %}</a>
-                        </div>
                     </form>
                 </div>
 
                 <div class="well">
                 <h3>Available Translations</h3>
-                <div class="table-responsive"><table class="table">
+                <div class="table-responsive"><table class="table" id="chapter-list">
                 {% if volume.chapter_set.all %}
-
+                    <tr>
+                        <th>Flag</th>
+                        <th>Chapter</th>
+                        <th>Translator</th>
+                        <th>Quality Score</th>
+                        <th>Edit</th>
+                        <th>Report</th>
+                    </tr>
                     {% for chapter in volume.chapter_set.all %}
                         <tr>
                         <td><a href="#" type="button" class="btn btn-default disabled">{% bootstrap_icon "link" %}</a></td>
@@ -86,7 +103,7 @@
                 {% endif %}
                 <tr>
                     <td></td>
-                    <td><a href="{% url 'chapter-add' %}?v={{ volume.pk }}" type="button" class="btn btn-primary btn-block">Add Chapter</a></td></td>
+                    <td><a href="{% url 'chapter-add' %}?v={{ volume.pk }}" type="button" class="btn btn-primary btn-block">Add Chapter</a></td>
                     <td></td><td></td><td></td><td></td>
                 </tr>
                 </table></div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -62,6 +62,8 @@ def series_edit(request, pk=None):
         "formset" : sub_form,
         "form" : form,
         "titleform" : title_form,
+        "form_title" : "Update Series Form",
+        "delete_view" : reverse('series-delete', kwargs={'pk' : series.pk}),
     })
 
 class SeriesUpdate(UpdateView):
@@ -73,9 +75,14 @@ class SeriesUpdate(UpdateView):
     def dispatch(self, *args, **kwargs):
         return super(SeriesUpdate, self).dispatch(*args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(SeriesUpdate, self).get_context_data(**kwargs)
+        context['form_title'] = "Update Series Form"
+        context['delete_view'] = reverse('series-delete', kwargs={'pk' : super(SeriesUpdate).get_object().pk})
+        return context
+
 class SeriesDelete(DeleteView):
     model = Series
-    context_object_name = "object"
     template_name = "directory/confirm_delete.html"
     success_url = reverse_lazy('series-list')
 
@@ -130,6 +137,11 @@ class VolumeCreate(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(VolumeCreate, self).dispatch(*args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(VolumeCreate, self).get_context_data(**kwargs)
+        context['form_title'] = "Create Volume Form"
+        return context
+
 class VolumeUpdate(UpdateView):
     model = Volume
     template_name = "directory/form.html"
@@ -138,6 +150,13 @@ class VolumeUpdate(UpdateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(VolumeUpdate, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(VolumeUpdate, self).get_context_data(**kwargs)
+        pk = super(VolumeUpdate, self).get_object().pk
+        context['form_title'] = "Update Volume Form"
+        context['delete_view'] = reverse('volume-delete', kwargs={'pk' : pk})
+        return context
 
 class VolumeDelete(DeleteView):
     model = Volume
@@ -170,6 +189,11 @@ class ChapterCreate(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(ChapterCreate, self).dispatch(*args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(ChapterCreate, self).get_context_data(**kwargs)
+        context['form_title'] = "Create Chapter Form"
+        return context
+
 class ChapterUpdate(UpdateView):
     model = Chapter
     template_name = "directory/form.html"
@@ -178,6 +202,13 @@ class ChapterUpdate(UpdateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(ChapterUpdate, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ChapterUpdate, self).get_context_data(**kwargs)
+        pk = super(ChapterUpdate, self).get_object().pk
+        context['form_title'] = "Update Chapter Form"
+        context['delete_view'] = reverse('chapter-delete', kwargs={'pk' : pk})
+        return context
 
 class ChapterDelete(DeleteView):
     model = Chapter
