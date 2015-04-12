@@ -73,7 +73,7 @@ class Volume(models.Model):
         super(Volume, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = ('series', 'slug')
+        unique_together = ('series', 'number')
         ordering = ['series', 'number']
 
 
@@ -82,7 +82,7 @@ class Chapter(models.Model):
     number = models.FloatField(null=True)
     volume = models.ForeignKey(Volume, null=True)
     translator = models.CharField(max_length=50, default="")
-    url = models.URLField(null=True, default="#")
+    url = models.URLField(null=True)
 
 
     def __unicode__(self):

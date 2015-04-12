@@ -1,40 +1,71 @@
-onigiri
-=======
+project onigiri
+===============
 
-An old-fashioned aggregator site for light novel fan translations. 
+A modern API/UI-centric aggregator site for light novel fan translations. The mission of this project is to make 
+light novel translations more accessible on mobile platforms. It can be thought of as a fusion between Mangafox,
+Baka-Tsuki, and Wordpress.
 
-(^Being built by a biologist who obviously has not made a web application before).
+![Landing Page](http://i.imgur.com/NxIxbXR.png)
 
-Key Features (what I think I can do):
--------------------------------------
+![Volume Detail Page](http://i.imgur.com/VGUupTf.png)
+
+Key Features:
+-------------
 * English-only support
-* Chapter-by-Chapter linking to external fan translations
-* Moderation of newly added links
-* Popularity rankings and ratings of light novel series
-* Categories and searching
-* Recent updates and RSS
+
+* A directory of light novel series, built in Django
+    * Popularity rankings and ratings of light novel series
+    * Category tags and searching
+    * Chapter-by-chapter translations, either:
+        * Links to external translations
+        * Physically hosted translations
+            * Translators have control over who has access to their scripts. They can opt to have them editable 
+              to the world (like Baka-Tsuki), to specific friends (their editors), or private to themselves.
+        * Note: Model needs to be able to resolve abnormal yet common situations, such as: 
+            * Multiple versions of the same chapter translated by differen translators exist
+            * Some translators translate by parts, not chapters (or put multiple chapters in one page)
+    * Recent updates and RSS
+
+* A hosting workspace for collaborating translators and editors (think google docs), built in Javascript
+    * Translators have control over who has access to their scripts. They can opt to have them editable to the 
+      world (like Baka-Tsuki), to specific friends (their editors), or private to themselves.
+        * Translators should be able to control the visibility of their scripts (ie: private when it is a WIP and still
+          being edited by their editor)
+        * A "permit/licensing" system should be developed and clearly marked like it is on GitHub:
+            * Open-source translations should be marked as such (free to distribute, change, and edit by anyone).
+            * Whether other translators of other languages can use your translations to translate.
+            * Whether a fan translation has all rights reserved (no derivative works, etc).
+    * A sophisticated commenting system like that in google docs
+        * Editors definitely need a good commenting system
+        * It would be nice if readers could highlight a typo/error and submit a suggestion ticket to the translator
+    * A sophisticated editor markup system like Microsoft Word's track changes. 
+    * Currently deliberating: Real-time collaboration, translator-specific features like marking sentences for help.
+    * Currently considering: [Etherpad](https://beta.etherpad.org/), [NYTimes-ICE](http://nytimes.github.io/ice/demo/) 
+
+* An API for other developers to extend on:
+    * Applications:
+        * Android App, iOS, EPUB, MOBI, tablet, etc.
+    * There should be no need to parse HTML
+    * API will make it easy to determine when volumes or chapters are completed
+    * API will make it easy to get the next chapter
+        * Needs to be able to handle the situation where multiple versions of the same chapter are present
 
 Dream Features (what I'd like to do):
 -------------------------------------
 * Multilingual support
-* Option for hosted translations/content
-    * Revision tracking
-    * Inline Commenting/Suggestions/Collaboration -- fancy editors; this is an application in itself
-    * Manuscript Permissions (give edit permissions to other users, groups, or even everyone)
 * Fancy UI and user-friendliness
     * User-customizable backgrounds, fonts, styles, for online reading
-    * Bookmarking for users 
-* API
-    * Android App
-    * IOS App
-    * PDF/EPUB generator
+    * Bookmarking for users
 * Series-specific forums (Not pHpBB; integrated into web app)
 * Translator/Translation Group-Oriented Features:
     * Customizable Translation Group Pages (like tumblr styling)
     * Journals/Blogs for translation groups
     * Private/Public forums for translation groups and their members
     * Statistics
-    * IN SHORT: A TRANSLATION GROUP HOST (like wordpress is a translation group host)
+* In short, the entire "community" section:
+    * How can translators better help each other?
+    * How can translators find editors more easily?
+    * How can we make the fan translating community more effective and connected, but in a good way?
 
 Why Am I Making an Aggregator?
 ==============================
@@ -63,10 +94,15 @@ possible.
 
 What Do I Need to Make this Possible?
 =====================================
-* Developers willing to work with me (please contact me!)
+* Developers willing to work with me (please contact me!). So far I've gotten interest from:
+    * Lord-Simon
+    * GJdan
+    * Given Zane
 * Someone willing to host the web application
     * Temporarily, I'll be able to put things on Heroku, but only while things stay small and not very noticeable  
-* Someone willing to administrate it (b/c I'm just a developer here!)
+* Someone willing to administrate it (b/c I'm just a developer here!). So far I've gotten interest from:
+    * Frog-kun
+
 
 
 

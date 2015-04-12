@@ -1,0 +1,26 @@
+{% extends "includes/base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <hr>
+    <h2>Titles:</h2>
+    {{ titleform.as_p }}
+
+    <hr>
+
+    {{ formset.management_form }}
+    {% for sub_form in formset %}
+        <div>{{ sub_form }}</div><br>
+    {% endfor %}
+    <input type="submit" value="Create" />
+        {% if object %}
+            <p><a href="{% url 'series-detail-slug' object.series_slug %}">Cancel</a></p><br>
+        {% else %}
+            <p><a href="{{ request.META.HTTP_REFERER }}">Cancel</a></p><br>
+        {% endif %}
+    </form>
+{% endblock %}
