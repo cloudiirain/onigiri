@@ -89,7 +89,7 @@ class Chapter(models.Model):
         return str(self.volume) + " " + self.title
 
     def get_absolute_url(self):
-        return reverse('volume-detail-slug', kwargs={'series': self.volume.series.slug, 'slug': self.volume.slug})
+        return reverse('volume-detail-slug', kwargs={'slug': self.volume.slug})
 
     class Meta:
         ordering = ['volume', 'number']

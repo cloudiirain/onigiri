@@ -166,6 +166,10 @@ html {
     margin: 2px auto;
 }
 
+#chapter-list th {
+    text-align: center;
+}
+
 /* Landing Page Styles */
 
 @media (min-width: 768px) {
