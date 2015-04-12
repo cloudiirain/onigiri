@@ -15,9 +15,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 text-center volume-detail">
-                <figure>
-                    <figcaption><h2>{{ volume.title }}</h2></figcaption>
+            <div class="col-md-4">
+                <figure style="padding-top:30px;">
                     {% if volume.image %}
                         <img src="{{ volume.image }}" class="img-responsive img-thumbnail">
                     {% else %}
@@ -25,7 +24,7 @@
                     {% endif %}
                 </figure>
             </div>
-            <div class="col-md-8 col-md-offset-4">
+            <div class="col-md-8">
 
                 <h2>Volume Overview:</h2>
                 <div class="well">
@@ -48,15 +47,15 @@
                         </div>
                         <div class="btn-group col-lg-2 col-sm-3 col-xs-4 pull-right" role="group">
                             <a href="{% url 'volume-update' volume.pk %}" type="button" class="btn btn-default">{% bootstrap_icon "pencil" %}</a>
-                            <a href="{% url 'chapter-add' %}?v={{ volume.pk }}" type="button" class="btn btn-success">{% bootstrap_icon "plus" %}</a>
                         </div>
                     </form>
                 </div>
 
                 <div class="well">
                 <h3>Available Translations</h3>
+                <div class="table-responsive"><table class="table">
                 {% if volume.chapter_set.all %}
-                    <div class="table-responsive"><table class="table">
+
                     {% for chapter in volume.chapter_set.all %}
                         <tr>
                         <td><a href="#" type="button" class="btn btn-default disabled">{% bootstrap_icon "link" %}</a></td>
@@ -73,21 +72,24 @@
                             <li>Language: cn→us</li>
                             </ul>
                         </div></td>
-                        <td><div class="btn-group" role="group" style="min-width:220px;">
+                        <td><div class="btn-group" role="group" style="min-width:180px;">
                             <a href="#" type="button" class="btn btn-default disabled">{% bootstrap_icon "stats" %} 2.4 ~ 4.8</a>
                             <a href="#" type="button" class="btn btn-default">{% bootstrap_icon "thumbs-up" %}</a>
-                            <a href="#" type="button" class="btn btn-default">{% bootstrap_icon "adjust" %}</a>
                             <a href="#" type="button" class="btn btn-default">{% bootstrap_icon "thumbs-down" %}</a>
                         </div></td>
                         <td><a href="{% url 'chapter-update' chapter.pk%}" type="button" class="btn btn-primary">{% bootstrap_icon "pencil" %}</a></td>
-                        <td></td>
+                        <td><a href="#" type="button" class="btn btn-danger">{% bootstrap_icon "exclamation-sign" %}</a></td>
                         </tr>
                     {% endfor %}
-                    </table></div>
                 {% else %}
                     <p>Sorry, no chapters are available for this volume!</p>
                 {% endif %}
-
+                <tr>
+                    <td></td>
+                    <td><a href="{% url 'chapter-add' %}?v={{ volume.pk }}" type="button" class="btn btn-primary btn-block">Add Chapter</a></td></td>
+                    <td></td><td></td><td></td><td></td>
+                </tr>
+                </table></div>
 
 
                 </div>

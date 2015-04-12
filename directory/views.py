@@ -15,7 +15,6 @@ Series Model Views
 
 class SeriesListView(ListView):
     model = Series
-    queryset = Series.objects.order_by('slug')
 
 class SeriesDetailView(DetailView):
     model = Series
@@ -156,7 +155,7 @@ Chapter Model Views
 class ChapterCreate(CreateView):
     model = Chapter
     template_name = "directory/form.html"
-    fields = ['title', 'number', 'volume']
+    fields = ['title', 'number', 'volume', 'translator', 'url']
 
     def get_initial(self):
         if self.request.method == 'GET' and 'v' in self.request.GET:
@@ -174,7 +173,7 @@ class ChapterCreate(CreateView):
 class ChapterUpdate(UpdateView):
     model = Chapter
     template_name = "directory/form.html"
-    fields = ['title', 'number', 'volume']
+    fields = ['title', 'number', 'volume', 'translator', 'url']
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
