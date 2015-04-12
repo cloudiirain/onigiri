@@ -172,6 +172,10 @@ html {
 
 /* Landing Page Styles */
 
+#home-img {
+    margin-top: -50px;
+}
+
 @media (min-width: 768px) {
     /* Start the vertical centering */
     .fullscreen-inner {
