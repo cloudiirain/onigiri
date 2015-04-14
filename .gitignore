@@ -62,3 +62,4 @@ node_modules
 *.db
 dev/
 static/bower_components/
+*/migrations/*
