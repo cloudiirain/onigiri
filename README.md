@@ -1,6 +1,9 @@
 project onigiri
 ===============
 
+[![Build Status](https://travis-ci.org/cloudiirain/onigiri.svg?branch=master)](https://travis-ci.org/cloudiirain/onigiri)
+[![Coverage Status](https://coveralls.io/repos/cloudiirain/onigiri/badge.svg)](https://coveralls.io/r/cloudiirain/onigiri)
+
 A modern API/UI-centric aggregator site for light novel fan translations. The mission of this project is to make 
 light novel translations more accessible on mobile platforms. It can be thought of as a fusion between Mangafox,
 Baka-Tsuki, and Wordpress. 
