@@ -3,7 +3,7 @@ project onigiri
 
 A modern API/UI-centric aggregator site for light novel fan translations. The mission of this project is to make 
 light novel translations more accessible on mobile platforms. It can be thought of as a fusion between Mangafox,
-Baka-Tsuki, and Wordpress.
+Baka-Tsuki, and Wordpress. 
 
 ![Landing Page](http://i.imgur.com/NxIxbXR.png)
 
