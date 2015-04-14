@@ -8,8 +8,8 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 script:
-  - python manage.py makemigrations
-  - python magae.py migrate
+  - python manage.py makemigrations onigiri
+  - python magae.py migrate onigiri
   - python manage.py test onigiri
   - coverage run --source=onigiri manage.py test onigiri
 after_success: coveralls
