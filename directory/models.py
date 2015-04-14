@@ -43,7 +43,7 @@ class Series(models.Model):
 
 
 class AltTitle(models.Model):
-    title = models.CharField(max_length=100, default="")
+    title = models.CharField(max_length=100, default="", verbose_name="Alternative Title")
     series = models.ForeignKey(Series, default="")
     slug = models.SlugField(max_length=100, default="", unique=True)
 
