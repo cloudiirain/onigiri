@@ -9,7 +9,7 @@ install:
   - pip install coveralls
 before_script:
   - npm install -g bower
-  - bower install bower.json
+  - bower install
 script:
   - python manage.py makemigrations
   - python manage.py migrate
