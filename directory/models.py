@@ -1,6 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Tags(models.Model):
@@ -84,7 +85,6 @@ class Chapter(models.Model):
     translator = models.CharField(max_length=50, default="")
     url = models.URLField(null=True)
 
-
     def __unicode__(self):
         return str(self.volume) + " " + self.title
 
@@ -93,3 +93,11 @@ class Chapter(models.Model):
 
     class Meta:
         ordering = ['volume', 'number']
+
+class ChapterRating(models.Model):
+    upvote = models.BooleanField(null=False, default=True)
+    user = models.ForeignKey(User, null=True)
+    chapter = models.ForeignKey(Chapter, null=True)
+
+    class Meta:
+        unique_together = ('user', 'chapter')
